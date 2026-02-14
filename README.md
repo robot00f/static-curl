@@ -1,22 +1,28 @@
-:mechanical_arm: Static curl :mechanical_arm:
------------
-[![Build Status](https://ci.moparisthe.best/job/moparisthebest/job/static-curl/job/master/badge/icon%3Fstyle=plastic)](https://ci.moparisthe.best/job/moparisthebest/job/static-curl/job/master/)
-
-These are a couple simple scripts to build a fully static curl binary using alpine linux docker containers.  Currently it is a featureful build with OpenSSL, libssh2, nghttp2, and zlib, supporting most protocols.  Tweak configure options in [build.sh](build.sh#L50) if you need something else (and/or suggest or PR).
-
-Grab the [latest release](https://github.com/moparisthebest/static-curl/releases/latest) from one of these links, by CPU architecture:
-  - [curl-amd64](https://github.com/moparisthebest/static-curl/releases/latest/download/curl-amd64)
-  - [curl-i386](https://github.com/moparisthebest/static-curl/releases/latest/download/curl-i386)
-  - [curl-aarch64](https://github.com/moparisthebest/static-curl/releases/latest/download/curl-aarch64)
-  - [curl-armv7](https://github.com/moparisthebest/static-curl/releases/latest/download/curl-armv7)
-  - [curl-armhf](https://github.com/moparisthebest/static-curl/releases/latest/download/curl-armhf)
-  - [curl-ppc64le](https://github.com/moparisthebest/static-curl/releases/latest/download/curl-ppc64le)
-
-Static binaries for windows are provided directly by [curl](https://curl.haxx.se/windows/) itself.
-
-Development
+:mechanical_arm: Static curl (ARMv5 Legacy Support) :mechanical_arm:
 -----------
 
-File explanation:
-  - [build.sh](build.sh) - runs inside an alpine docker container, downloads curl, verifies it with gpg, and builds it
-  - [mykey.asc](mykey.asc) - Daniel Stenberg's [GPG key](https://daniel.haxx.se/address.html) used for signing/verifying curl releases
+This project provides scripts to build a **fully static curl binary** using MUSL Libc. 
+
+**Main Feature:**
+This build is specifically patched to bypass the `FATAL: kernel too old` error. It is designed for legacy embedded devices (IP Cameras, HiSilicon Hi3518, old routers, etc.) running very old Linux Kernels (2.6.x - 3.x).
+
+### :inbox_tray: Download Latest Release
+
+You can download the **ARMv5 MUSL** binary directly from the link below:
+
+- **[curl-armv5-musl](https://github.com/robot00f/static-curl/releases/download/v8.11.0-armv5-static/curl-armv5-musl)**
+  *(Features: Static linked, OpenSSL 1.1.1w, Zlib, TLS 1.3 support, Kernel version check bypassed)*
+
+**Full Release Page:**
+[https://github.com/robot00f/static-curl/releases/tag/v8.11.0-armv5-static](https://github.com/robot00f/static-curl/releases/tag/v8.11.0-armv5-static)
+
+### Usage on Embedded Devices
+
+Since older devices often lack modern CA Certificates, use `-k` (insecure) or provide your own certificate bundle:
+
+```bash
+# 1. Make it executable
+chmod +x curl-armv5-musl
+
+# 2. Run
+./curl-armv5-musl -k -I [https://www.google.com](https://www.google.com)
