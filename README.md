@@ -25,4 +25,4 @@ Since older devices often lack modern CA Certificates, use `-k` (insecure) or pr
 chmod +x curl-armv5-musl
 
 # 2. Run
-./curl-armv5-musl -k -I [https://www.google.com](https://www.google.com)
+./curl-armv5-musl -k -I https://www.google.com
